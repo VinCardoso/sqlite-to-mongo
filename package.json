@@ -1,0 +1,25 @@
+{
+  "name": "sqlite-to-mongo",
+  "version": "0.0.1",
+  "description": "Send data from database on boat, in SQLite, to cloud in MongoDB.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinCardoso/sqlite-to-mongo.git"
+  },
+  "author": "Vinicius Cardoso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VinCardoso/sqlite-to-mongo/issues"
+  },
+  "homepage": "https://github.com/VinCardoso/sqlite-to-mongo#readme",
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "better-sqlite3": "^5.4.3",
+    "nodemon": "^2.0.2",
+    "request": "^2.88.0"
+  }
+}
