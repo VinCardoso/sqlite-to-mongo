@@ -1,19 +1,17 @@
-const db = require('better-sqlite3')('../can-bus-tcc/database.db');
+const db = require('better-sqlite3')('../can-bus-tcc/database.db', { verbose: console.log });
 const request = require('request');
 
-
-
 const update = () => {
-    const row = db.prepare('SELECT * FROM data WHERE upload = ?');
-    const cat = row.get(0);
+
+    const row = db.prepare('SELECT * FROM data WHERE upload = ?').get(0);
 
     var json = {
-        "ts": cat.ts,
-        "ts_u": cat.ts_u,
-        "ts_complete": cat.ts_complete,
-        "data_time": cat.data_time,
-        "mod": cat.mod,
-        "info": cat.info
+        "ts": row.ts,
+        "ts_u": row.ts_u,
+        "ts_complete": row.ts_complete,
+        "data_time": row.data_time,
+        "mod": row.module,
+        "info": row.info
     };
 
     var options = {
@@ -30,16 +28,16 @@ const update = () => {
         if (err) {
             return console.log(err);
         }
-        const query = db.prepare('UPDATE data SET upload=1 WHERE ts_complete = ?');
-        query.run(cat.ts_complete);
-        console.log("send: " + cat.ts_complete);
+        const query = db.prepare('UPDATE data SET upload=1 WHERE id = ?');
+        query.run(row.id);
+        console.log("send: " + row.id);
     });
 }
 
 
 update();
 
-setInterval(update, 20);
+setInterval(update, 100);
 
 
 
