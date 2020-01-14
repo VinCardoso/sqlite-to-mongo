@@ -1,5 +1,9 @@
 const db = require('better-sqlite3')('../can-bus-tcc/database.db', { verbose: console.log });
 const request = require('request');
+const dotenv = require('dotenv');
+
+// Setup DotEnv
+dotenv.config();
 
 const update = () => {
 
@@ -15,7 +19,7 @@ const update = () => {
     };
 
     var options = {
-        url: 'http://localhost:3000/api/data',
+        url: process.env.API_URL,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -38,8 +42,3 @@ const update = () => {
 update();
 
 setInterval(update, 100);
-
-
-
-
-
