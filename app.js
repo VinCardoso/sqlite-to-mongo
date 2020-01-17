@@ -9,7 +9,7 @@ dotenv.config();
 const db = Database(process.env.SQLITE_LOG_DB);
 const db_file_name = process.env.SQLITE_LOG_DB;
 
-const sendPerRequest = 1000; // How many log lines send each request?
+const sendPerRequest = process.env.LOG_LINES_TO_UPDATE; // How many log lines send each request?
 
 // Create SYNC Database and Search Last ID Updated
 const sync_db = new Database(process.env.SQLITE_SYNC_DB);
@@ -52,12 +52,18 @@ const update = () => {
         if (err) {
             return console.log(err);
         }
-        list.forEach(i => {
-            l.last_id_sync = i.id;
-            query_add_to_list.run(db_file_name, i.id, 1)
-            query_update_last_id_sync.run(l.last_id_sync, db_file_name)
-            console.log({ id_change: i.id});
-        });
+        
+        console.log({ statusCode: res.statusCode , statusMessage: res.statusMessage });
+        
+        if (res.statusCode >= 400 ){
+            return console.log('Data not saved');
+        }else{
+            list.forEach(i => {
+                l.last_id_sync = i.id;
+                query_add_to_list.run(db_file_name, i.id, 1)
+                query_update_last_id_sync.run(l.last_id_sync, db_file_name)
+            });
+        }
         
         setTimeout(update, 100);
     
