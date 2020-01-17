@@ -53,8 +53,6 @@ const update = () => {
             return console.log(err);
         }
         
-        console.log({ statusCode: res.statusCode , statusMessage: res.statusMessage });
-        
         if (res.statusCode >= 400 ){
             return console.log('Data not saved');
         }else{
@@ -65,13 +63,13 @@ const update = () => {
             // });
 
             l.last_id_sync = list[list.length-1].id;
-            console.log({ storedNumber: list.length, lastItem: l.last_id_sync});
             query_update_last_id_sync.run(l.last_id_sync, db_file_name)
-
+            console.log({ statusCode: res.statusCode , statusMessage: res.statusMessage, storedNumber: list.length, lastItem: l.last_id_sync});
+            
         }
         
-        setTimeout(update, 100);
-    
+        setTimeout(update, process.env.TIME_UPDATE*1000);
+
     });
 }
 
